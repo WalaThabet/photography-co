@@ -1,0 +1,7 @@
+AllCops:
+  Exclude:
+    - db/**/*
+    - Gemfile
+    - vendor/**/*
+    - config/environments/*
+    - bin/**/*
