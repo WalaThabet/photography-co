@@ -13,6 +13,7 @@
     "@babel/runtime": "7",
     "@types/babel__core": "7",
     "@types/webpack": "5",
+    "autoprefixer": "^10.4.19",
     "babel-loader": "8",
     "babel-plugin-macros": "^3.1.0",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
@@ -20,12 +21,14 @@
     "css-loader": "^6.10.0",
     "css-minimizer-webpack-plugin": "^6.0.0",
     "mini-css-extract-plugin": "^2.8.1",
+    "postcss": "^8.4.38",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
-    "react_ujs": "^3.2.0",
     "react-dom": "^18.2.0",
-    "shakapacker": "^7.3.0-beta.1",
+    "react_ujs": "^3.2.0",
+    "shakapacker": "7.2.0",
     "style-loader": "^3.3.4",
+    "tailwindcss": "^3.4.3",
     "terser-webpack-plugin": "5",
     "webpack": "5",
     "webpack-assets-manifest": "5",
@@ -43,14 +46,8 @@
     "defaults"
   ],
   "devDependencies": {
+    "postcss-loader": "^8.1.1",
     "tailwindcss": "^3.4.3",
     "webpack-dev-server": "4"
-  },
-  "scripts": {
-    "start": "npm run watch:css && react-scripts start",
-    "build": "npm run watch:css && react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "watch:css": "postcss src/assets/tailwind.css -o src/assets/main.css"
   }
 }

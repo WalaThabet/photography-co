@@ -30,7 +30,6 @@ gem 'stimulus-rails'
 gem 'jbuilder'
 
 gem 'react-rails'
-gem 'webpacker'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[windows jruby]
@@ -57,6 +56,6 @@ group :development do
   # gem "spring"
 end
 
-gem "shakapacker", "= 7.2"
+gem 'shakapacker', '= 7.2'
 
-gem "tailwindcss-rails", "~> 2.3"
+gem "erb-formatter", "~> 0.7.2"
