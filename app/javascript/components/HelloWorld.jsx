@@ -4,7 +4,9 @@ import PropTypes from "prop-types"
 const HelloWorld = (props) => {
   return (
     <React.Fragment>
-      Greeting: {props.greeting}
+     <h1 class="text-3xl font-bold underline">
+         Hello world!
+     </h1>
     </React.Fragment>
   )
 }
