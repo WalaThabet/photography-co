@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import GalleryList from './galleries/GalleryList';
 import PhotographerCard from './photographers/PhotographerCard';
-import PhotographerDashboard from './photographers/PhotographerDashboard'; // Assuming you have this component
+import PhotographerDashboard from './photographers/PhotographerDashboard';
 
 const Home = () => (
   <>
@@ -12,7 +12,7 @@ const Home = () => (
     <PhotographerCard
       name="Jane Doe"
       bio="Passionate landscape photographer with a love for the natural world."
-      profilePicture="path_to_photographer_image" // Replace with actual image path or URL
+      profilePicture="path_to_photographer_image"
     />
     {/* More PhotographerCards would go here */}
   </>
@@ -25,7 +25,6 @@ const App = () => {
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route path="/photographers/:photographerId/dashboard" element={<PhotographerDashboard />} />
-          {/* Add other routes as needed */}
         </Routes>
       </main>
     </Router>

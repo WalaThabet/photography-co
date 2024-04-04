@@ -1,5 +1,3 @@
-// app/javascript/components/PhotoUploadForm.jsx
-
 import React, { useState } from 'react';
 import axios from 'axios';
 

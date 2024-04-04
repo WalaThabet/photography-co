@@ -7,15 +7,14 @@ const galleries = [
     id: 1,
     title: 'Sunset Shots',
     description: 'A collection of all my sunset photos from around the world.',
-    coverImage: 'path_to_sunset_image', // Replace with actual image path or URL
+    coverImage: 'path_to_sunset_image',
   },
   {
     id: 2,
     title: 'Wildlife Wonders',
     description: 'Close-up encounters with the animal kingdom.',
-    coverImage: 'path_to_wildlife_image', // Replace with actual image path or URL
+    coverImage: 'path_to_wildlife_image',
   },
-  // ...more galleries
 ];
 
 const GalleryList = () => {
