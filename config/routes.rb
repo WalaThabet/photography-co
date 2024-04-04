@@ -1,12 +1,23 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  devise_for :photographers
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
   get 'up' => 'rails/health#show', as: :rails_health_check
 
-  # Defines the root path route ("/")
   root 'homepage#index'
+
+  namespace :api do
+    namespace :v1 do
+      resources :photographers do
+        member do
+          get 'dashboard'
+        end
+        resources :galleries do
+          resources :photos
+        end
+      end
+    end
+  end
+  get '*path', to: 'homepage#index', constraints: ->(request) { !request.xhr? && request.format.html? }
 end

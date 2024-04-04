@@ -1,18 +1,34 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import GalleryList from './galleries/GalleryList';
+import PhotographerCard from './photographers/PhotographerCard';
+import PhotographerDashboard from './photographers/PhotographerDashboard';
 
-const HelloWorld = (props) => {
+const Home = () => (
+  <>
+    <h1 className="text-center text-4xl font-bold my-10">PhotographyCo Galleries</h1>
+    <GalleryList />
+    <h2 className="text-center text-2xl font-bold my-6">Featured Photographers</h2>
+    <PhotographerCard
+      name="Jane Doe"
+      bio="Passionate landscape photographer with a love for the natural world."
+      profilePicture="path_to_photographer_image"
+    />
+    {/* More PhotographerCards would go here */}
+  </>
+);
+
+const App = () => {
   return (
-    <React.Fragment>
-      <div className="p-4 text-center tw-bg-blue-500 text-blue-300	">
-        Hello, Tailwind!
-      </div>
-    </React.Fragment>
+    <Router>
+      <main className="app-container">
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route path="/photographers/:photographerId/dashboard" element={<PhotographerDashboard />} />
+        </Routes>
+      </main>
+    </Router>
   );
 };
 
-HelloWorld.propTypes = {
-  greeting: PropTypes.string,
-};
-
-export default HelloWorld;
+export default App;
