@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddDeviseToPhotographers < ActiveRecord::Migration[7.1]
   def change
     ## Database authenticatable

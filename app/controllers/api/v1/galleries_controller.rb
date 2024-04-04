@@ -1,4 +1,4 @@
-# app/controllers/api/v1/galleries_controller.rb
+# frozen_string_literal: true
 
 module Api
   module V1

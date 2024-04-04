@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # app/controllers/api/v1/photos_controller.rb
 
 module Api
@@ -5,7 +7,6 @@ module Api
     class PhotosController < ApplicationController
       before_action :set_photo, only: %i[show update destroy]
 
-      # GET /api/v1/photos
       def index
         @photos = Photo.with_attached_image.all
         render json: @photos.map { |photo|
@@ -13,7 +14,6 @@ module Api
         }
       end
 
-      # POST /api/v1/photos
       def create
         @photo = Photo.new(photo_params)
 
@@ -25,12 +25,10 @@ module Api
         end
       end
 
-      # GET /api/v1/photos/:id
       def show
         render json: @photo.as_json.merge({ image_url: url_for(@photo.image) })
       end
 
-      # PATCH/PUT /api/v1/photos/:id
       def update
         if @photo.update(photo_params)
           render json: @photo
@@ -39,7 +37,6 @@ module Api
         end
       end
 
-      # DELETE /api/v1/photos/:id
       def destroy
         @photo.destroy
         head :no_content
