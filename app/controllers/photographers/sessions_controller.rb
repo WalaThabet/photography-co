@@ -2,13 +2,21 @@
 class Photographers::SessionsController < Devise::SessionsController
   respond_to :json
 
-  private
-
-  def respond_with(resource, _opts = {})
-    render json: resource, status: :ok
+  def create
+    super do |photographer|
+      if photographer.persisted?
+        sign_in(resource_name, resource)
+        render json: { success: true, photographer: }, status: :created and return
+      else
+        render json: { success: false }, status: :unauthorized
+      end
+    end
   end
 
-  def respond_to_on_destroy
-    head :no_content
+  def destroy
+    super do
+      signed_out = sign_out(resource_name)
+      render json: { success: signed_out }, status: :ok
+    end
   end
 end

@@ -12,6 +12,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
+      get 'check_auth', to: 'auth#check_auth'
       resources :photographers do
         member do
           get 'dashboard'

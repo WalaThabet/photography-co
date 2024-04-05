@@ -12,16 +12,29 @@ const SignInPage = () => {
   const handleSignIn = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/photographers/sign_in', {
-        photographer: {
-          email: email,
-          password: password
-        }
-      });
-      auth.signIn({ isAuthenticated: true, user: response.data });
-      const photographerId = response.data.id;
-      navigate(`/photographers/${photographerId}/dashboard`);
+      // Ensure you include { withCredentials: true }
+      const response = await axios.post(
+        '/photographers/sign_in',
+        {
+          photographer: {
+            email: email,
+            password: password
+          }
+        },
+        { withCredentials: true }
+      );
+
+      // Check response for successful authentication
+      if (response.data.success) {
+        // Update auth state - you might adjust this based on your backend response
+        auth.signIn(response.data.photographer);
+        navigate(`/photographers/${response.data.photographer.id}/dashboard`);
+      } else {
+        // Handle failed authentication (e.g., show error message)
+      }
     } catch (error) {
+      // Handle errors (e.g., show error message)
+      console.error('Sign in error:', error);
     }
   };
 
