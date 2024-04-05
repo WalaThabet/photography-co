@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  devise_for :photographers
+  devise_for :photographers, defaults: { format: :json }, controllers: {
+    sessions: 'photographers/sessions',
+    registrations: 'photographers/registrations'
+  }
 
   get 'up' => 'rails/health#show', as: :rails_health_check
 
