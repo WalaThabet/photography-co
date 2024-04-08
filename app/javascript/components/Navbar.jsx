@@ -9,7 +9,7 @@ const Navbar = () => {
   const [nav, setNav] = useState(false);
   const { auth, signOut } = useAuth();
   const { isAuthenticated } = auth;
- 
+
   const handleNav = () => {
     setNav(!nav);
   };
@@ -42,21 +42,21 @@ const Navbar = () => {
   return (
     <div className="flex justify-between items-center h-18 w-full px-4 text-white sticky top-0 bg-black bg-opacity-20 backdrop-blur-sm">
       {/* Logo */}
-      <h1 className="text-3xl font-bold text-[#df00c1]">Lensify.</h1>
+      <h1 className="text-3xl font-bold text-[#050505]">Lensify.</h1>
 
       {/* Desktop Navigation */}
       <ul className="hidden md:flex">
         {navItems.map((item) => (
           <li
             key={item.id}
-            className="p-4 hover:bg-[#df00c1] rounded-xl m-2 cursor-pointer duration-300 hover:text-black"
+            className="p-4 hover:bg-[#060506] rounded-xl m-2 cursor-pointer duration-300 hover:text-white"
           >
             {item.text}
           </li>
         ))}
         <li
           onClick={handleLogout}
-          className="p-4 hover:bg-[#df00c1] rounded-xl m-2 cursor-pointer duration-300 hover:text-black"
+          className="p-4 hover:bg-[#070707] rounded-xl m-2 cursor-pointer duration-300 hover:text-white"
         >
           <AiOutlineLogout size={20} />
         </li>
