@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import PhotoUploadForm from "./PhotoUploadForm";
 import GalleryList from "../galleries/GalleryList";
+import PhotographerSidebar from "../PhotographerSidebar";
 import axios from "axios";
 
 const PhotographerDashboard = () => {
@@ -28,12 +28,12 @@ const PhotographerDashboard = () => {
   }
 
   return (
-    <>
-      <main className="dashboard-container">
+    <div className="flex">
+      <PhotographerSidebar photographerId={photographerId} />
+      <main className="flex-grow">
         <h1 className="text-center text-4xl font-bold my-10">Your Dashboard</h1>
         {photographer.galleries.length > 0 ? (
           <>
-            <PhotoUploadForm galleryId={photographer.galleries[0].id} />
             <GalleryList galleries={photographer.galleries} />
           </>
         ) : (
@@ -48,7 +48,7 @@ const PhotographerDashboard = () => {
           </div>
         )}
       </main>
-    </>
+    </div>
   );
 };
 

@@ -50,7 +50,7 @@ module Api
       end
 
       def gallery_params
-        params.require(:gallery).permit(:title, :description, :photographer_id)
+        params.require(:gallery).permit(:title, :description, :photographer_id, :cover_image)
       end
     end
   end
