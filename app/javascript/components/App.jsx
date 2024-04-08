@@ -1,26 +1,16 @@
-import React, { useState, createContext, useContext, useEffect } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-} from "react-router-dom";
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import GalleryList from "./galleries/GalleryList";
+import GalleryForm from "./galleries/GalleryForm";
 import PhotographerCard from "./photographers/PhotographerCard";
 import PhotographerDashboard from "./photographers/PhotographerDashboard";
+import Navbar from "./Navbar";
 import SignInPage from "./SignInPage";
-import axios from "axios";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "../store/store";
-
-const AuthContext = createContext(null);
-export const useAuth = () => useContext(AuthContext);
-
-const PrivateRoute = ({ children }) => {
-  const auth = useAuth();
-  return auth.isAuthenticated ? children : <Navigate to="/sign_in" />;
-};
+import { AuthProvider } from "./AuthContext";
+import AuthCheck from "./AuthCheck";
 
 const Home = () => (
   <>
@@ -41,44 +31,13 @@ const Home = () => (
 );
 
 const App = () => {
-  const [auth, setAuth] = useState({ isAuthenticated: false, user: null });
-
-  const signIn = (user) => {
-    setAuth({ isAuthenticated: true, user: user });
-  };
-
-  const signOut = () => {
-    setAuth({ isAuthenticated: false, user: null });
-  };
-
-  useEffect(() => {
-    const checkAuthStatus = async () => {
-      try {
-        const response = await axios.get("/api/v1/check_auth", {
-          withCredentials: true,
-        });
-        if (response.data.isAuthenticated) {
-          store.dispatch({
-            type: "LOGIN",
-            payload: { user: response.data.user },
-          });
-        } else {
-          store.dispatch({ type: "LOGOUT" });
-        }
-      } catch (error) {
-        console.error("Error checking auth status:", error);
-        store.dispatch({ type: "LOGOUT" });
-      }
-    };
-
-    checkAuthStatus();
-  }, []);
-
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <AuthContext.Provider value={{ ...auth, signIn, signOut }}>
+        <AuthProvider>
+          <AuthCheck />
           <Router>
+            <Navbar />
             <Routes>
               <Route exact path="/" element={<Home />} />
               <Route path="/sign_in" element={<SignInPage />} />
@@ -86,9 +45,13 @@ const App = () => {
                 path="/photographers/:photographerId/dashboard"
                 element={<PhotographerDashboard />}
               />
+              <Route
+                path="/photographers/:photographerId/new-gallery"
+                element={<GalleryForm />}
+              />
             </Routes>
           </Router>
-        </AuthContext.Provider>
+        </AuthProvider>
       </PersistGate>
     </Provider>
   );

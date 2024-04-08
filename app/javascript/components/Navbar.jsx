@@ -1,15 +1,22 @@
 import React, { useState } from "react";
-import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
+import { AiOutlineClose, AiOutlineMenu, AiOutlineLogout } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "./AuthContext";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const [nav, setNav] = useState(false);
-
+  const { auth, signOut } = useAuth();
+  const { isAuthenticated } = auth;
+ 
   const handleNav = () => {
     setNav(!nav);
   };
+
+  if (!isAuthenticated) {
+    return null;
+  }
 
   const handleLogout = async () => {
     try {
@@ -19,38 +26,40 @@ const Navbar = () => {
           Accept: "application/json",
         },
       });
-      // After logging out, redirect to the sign-in page
+      signOut();
       navigate("/sign_in");
     } catch (error) {
       console.error("Logout failed:", error);
     }
   };
 
-  // Array containing navigation items
   const navItems = [
     { id: 1, text: "Home" },
     { id: 2, text: "Company" },
-    { id: 3, text: "Resources" },
-    { id: 4, text: "About" },
-    { id: 5, text: "Log Out", action: handleLogout },
+    { id: 3, text: "About" },
   ];
 
   return (
-    <div className="bg-black flex justify-between items-center h-24 w-full mx-auto px-4 text-white">
+    <div className="flex justify-between items-center h-18 w-full px-4 text-white sticky top-0 bg-black bg-opacity-20 backdrop-blur-sm">
       {/* Logo */}
-      <h1 className="w-full text-3xl font-bold text-[#00df9a]">Lensify.</h1>
+      <h1 className="text-3xl font-bold text-[#df00c1]">Lensify.</h1>
 
       {/* Desktop Navigation */}
       <ul className="hidden md:flex">
         {navItems.map((item) => (
           <li
             key={item.id}
-            onClick={item.text === "Log Out" ? handleLogout : null}
-            className="p-4 hover:bg-[#00df9a] rounded-xl m-2 cursor-pointer duration-300 hover:text-black"
+            className="p-4 hover:bg-[#df00c1] rounded-xl m-2 cursor-pointer duration-300 hover:text-black"
           >
             {item.text}
           </li>
         ))}
+        <li
+          onClick={handleLogout}
+          className="p-4 hover:bg-[#df00c1] rounded-xl m-2 cursor-pointer duration-300 hover:text-black"
+        >
+          <AiOutlineLogout size={20} />
+        </li>
       </ul>
 
       {/* Mobile Navigation Icon */}
@@ -67,7 +76,7 @@ const Navbar = () => {
         }
       >
         {/* Mobile Logo */}
-        <h1 className="w-full text-3xl font-bold text-[#00df9a] m-4">
+        <h1 className="w-full text-3xl font-bold text-[#df00c1] m-4">
           Lensify
         </h1>
 
@@ -80,6 +89,12 @@ const Navbar = () => {
             {item.text}
           </li>
         ))}
+        <li
+          onClick={handleLogout}
+          className="p-4 border-b border-gray-600 rounded-xl hover:bg-[#00df9a] duration-300 hover:text-black cursor-pointer"
+        >
+          <AiOutlineLogout size={20} />
+        </li>
       </ul>
     </div>
   );

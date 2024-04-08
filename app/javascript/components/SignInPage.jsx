@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useAuth } from "./App";
+import { useAuth } from "./AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const SignInPage = () => {
