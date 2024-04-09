@@ -24,9 +24,20 @@ module Api
       end
 
       def show
-        @photographer = Photographer.includes(:galleries).find(params[:id])
+        @photographer = Photographer.includes(galleries: { cover_image_attachment: :blob }).find(params[:id])
 
-        render json: @photographer.to_json(include: :galleries)
+        render json: @photographer.as_json(
+          include: {
+            galleries: {
+              methods: :cover_image_url,
+              include: {
+                photographer: {
+                  only: %i[id name]
+                }
+              }
+            }
+          }
+        )
       end
 
       def update

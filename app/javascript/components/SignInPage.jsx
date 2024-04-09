@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "./AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -6,8 +6,16 @@ import { useNavigate } from "react-router-dom";
 const SignInPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [csrfToken, setCsrfToken] = useState("");
   const auth = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = document
+      .querySelector('meta[name="csrf-token"]')
+      .getAttribute("content");
+    setCsrfToken(token);
+  }, []);
 
   const handleSignIn = async (e) => {
     e.preventDefault();
@@ -20,7 +28,12 @@ const SignInPage = () => {
             password: password,
           },
         },
-        { withCredentials: true }
+        {
+          withCredentials: true,
+          headers: {
+            "X-CSRF-Token": csrfToken,
+          },
+        }
       );
 
       if (response.data.success) {

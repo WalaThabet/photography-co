@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import GalleryList from "./galleries/GalleryList";
 import GalleryForm from "./galleries/GalleryForm";
+import { GalleriesProvider } from '../contexts/GalleriesContext';
 import PhotographerCard from "./photographers/PhotographerCard";
 import PhotographerDashboard from "./photographers/PhotographerDashboard";
 import Navbar from "./Navbar";
@@ -11,6 +12,8 @@ import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "../store/store";
 import { AuthProvider } from "./AuthContext";
 import AuthCheck from "./AuthCheck";
+import axios from "axios";
+axios.defaults.withCredentials = true;
 
 const Home = () => (
   <>
@@ -33,6 +36,8 @@ const Home = () => (
 const App = () => {
   return (
     <Provider store={store}>
+          <GalleriesProvider>
+
       <PersistGate loading={null} persistor={persistor}>
         <AuthProvider>
           <AuthCheck />
@@ -53,6 +58,8 @@ const App = () => {
           </Router>
         </AuthProvider>
       </PersistGate>
+      </GalleriesProvider>
+
     </Provider>
   );
 };

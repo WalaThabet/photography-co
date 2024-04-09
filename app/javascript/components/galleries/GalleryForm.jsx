@@ -12,12 +12,24 @@ const GalleryForm = ({ onCreate }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const formData = new FormData();
+    formData.append("gallery[title]", title);
+    formData.append("gallery[description]", description);
+    if (coverImage) {
+      formData.append("gallery[cover_image]", coverImage);
+    }
+
     try {
       const response = await axios.post(
         `/api/v1/photographers/${photographerId}/galleries`,
-        { gallery: { title, description } }
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
-      onCreate(response.data);
+      if (onCreate) onCreate(response.data);
       navigate(`/photographers/${photographerId}/dashboard`);
     } catch (error) {
       console.error("Failed to create gallery:", error);

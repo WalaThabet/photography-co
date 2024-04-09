@@ -9,21 +9,24 @@ module Api
 
       def index
         @galleries = Gallery.includes(:photographer).all
-        render json: @galleries, include: [:photographer]
+        galleries_with_urls = @galleries.map do |gallery|
+          gallery.as_json(include: [:photographer]).merge(cover_image_url: gallery.cover_image_url)
+        end
+        render json: galleries_with_urls
       end
 
       def create
         @gallery = Gallery.new(gallery_params)
         @gallery.photographer = @photographer
         if @gallery.save
-          render json: @gallery, status: :created
+          render json: @gallery.as_json(methods: [:cover_image_url]), status: :created
         else
           render json: @gallery.errors, status: :unprocessable_entity
         end
       end
 
       def show
-        render json: @gallery
+        render json: @gallery, methods: [:cover_image_url]
       end
 
       def update

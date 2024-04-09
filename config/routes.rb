@@ -10,6 +10,10 @@ Rails.application.routes.draw do
 
   root 'homepage#index'
 
+  direct :rails_service_blob do |blob|
+    route_for(:rails_blob, blob.signed_id, blob.filename)
+  end
+
   namespace :api do
     namespace :v1 do
       get 'check_auth', to: 'auth#check_auth'
