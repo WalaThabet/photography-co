@@ -61,3 +61,6 @@ end
 gem 'shakapacker', '= 7.2'
 
 gem 'erb-formatter', '~> 0.7.2'
+gem 'rack-cors'
+
+gem 'pry'

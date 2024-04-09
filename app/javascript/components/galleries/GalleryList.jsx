@@ -1,37 +1,25 @@
-import React from 'react';
-import GalleryItem from './GalleryItem';
+import React from "react";
+import GalleryItem from "./GalleryItem";
+import { useParams } from "react-router-dom";
 
-// Sample static data
-const galleries = [
-  {
-    id: 1,
-    title: 'Sunset Shots',
-    description: 'A collection of all my sunset photos from around the world.',
-    coverImage: 'path_to_sunset_image',
-  },
-  {
-    id: 2,
-    title: 'Wildlife Wonders',
-    description: 'Close-up encounters with the animal kingdom.',
-    coverImage: 'path_to_wildlife_image',
-  },
-];
-
-const GalleryList = () => {
- return (
-   <div className="container mx-auto px-4">
-     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-       {galleries.map((gallery) => (
-         <GalleryItem
-           key={gallery.id}
-           title={gallery.title}
-           description={gallery.description}
-           coverImage={gallery.coverImage}
-         />
-       ))}
-     </div>
-   </div>
- );
+const GalleryList = ({ galleries }) => {
+  const { photographerId } = useParams();
+  return (
+    <div className="container mx-auto px-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        {galleries.map((gallery) => (
+          <GalleryItem
+            key={gallery.id}
+            id={gallery.id}
+            title={gallery.title}
+            description={gallery.description}
+            coverImage={gallery.cover_image_url}
+            photographerId={photographerId}
+          />
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default GalleryList;

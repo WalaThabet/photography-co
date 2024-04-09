@@ -6,17 +6,19 @@ module Api
   module V1
     class PhotosController < ApplicationController
       before_action :set_photo, only: %i[show update destroy]
+      before_action :find_gallery
 
       def index
         @photos = Photo.with_attached_image.all
-        render json: @photos.map { |photo|
-          photo.as_json.merge({ image_url: url_for(photo.image) })
-        }
+        photo_with_urls = @photos.map do |photo|
+          photo.as_json.merge(photo: gallery.image_url)
+        end
+        render json: photo_with_urls
       end
 
       def create
         @photo = Photo.new(photo_params)
-
+        @photo.gallery = @gallery
         if @photo.save
           @photo.image.attach(params[:photo][:image])
           render json: @photo.as_json.merge({ image_url: url_for(@photo.image) }), status: :created
@@ -48,8 +50,12 @@ module Api
         @photo = Photo.find(params[:id])
       end
 
+      def find_gallery
+        @gallery = Gallery.find(params[:gallery_id])
+      end
+
       def photo_params
-        params.require(:photo).permit(:title, :description, :gallery_id)
+        params.require(:photo).permit(:title, :description, :gallery_id, :image)
       end
     end
   end
