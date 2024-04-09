@@ -30,7 +30,7 @@ const GalleryItem = ({
 
   return (
     <div className="gallery-item m-4 p-4 border rounded shadow-lg relative">
-      <Link to={`/galleries/${id}`}>
+      <Link to={`/photographers/${photographerId}/galleries/${id}`}>
         {coverImage && (
           <img
             src={imageUrl}

@@ -2,7 +2,9 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import GalleryList from "./galleries/GalleryList";
 import GalleryForm from "./galleries/GalleryForm";
-import { GalleriesProvider } from '../contexts/GalleriesContext';
+import { GalleriesProvider } from "../contexts/GalleriesContext";
+import GalleryShowPage from "./galleries/GalleryShowPage";
+import PhotoUploadForm from "./galleries/PhotoUploadForm";
 import PhotographerCard from "./photographers/PhotographerCard";
 import PhotographerDashboard from "./photographers/PhotographerDashboard";
 import Navbar from "./Navbar";
@@ -36,30 +38,36 @@ const Home = () => (
 const App = () => {
   return (
     <Provider store={store}>
-          <GalleriesProvider>
-
-      <PersistGate loading={null} persistor={persistor}>
-        <AuthProvider>
-          <AuthCheck />
-          <Router>
-            <Navbar />
-            <Routes>
-              <Route exact path="/" element={<Home />} />
-              <Route path="/sign_in" element={<SignInPage />} />
-              <Route
-                path="/photographers/:photographerId/dashboard"
-                element={<PhotographerDashboard />}
-              />
-              <Route
-                path="/photographers/:photographerId/new-gallery"
-                element={<GalleryForm />}
-              />
-            </Routes>
-          </Router>
-        </AuthProvider>
-      </PersistGate>
+      <GalleriesProvider>
+        <PersistGate loading={null} persistor={persistor}>
+          <AuthProvider>
+            <AuthCheck />
+            <Router>
+              <Navbar />
+              <Routes>
+                <Route exact path="/" element={<Home />} />
+                <Route path="/sign_in" element={<SignInPage />} />
+                <Route
+                  path="/photographers/:photographerId/dashboard"
+                  element={<PhotographerDashboard />}
+                />
+                <Route
+                  path="/photographers/:photographerId/new-gallery"
+                  element={<GalleryForm />}
+                />
+                <Route
+                  path="/photographers/:photographerId/galleries/:galleryId"
+                  element={<GalleryShowPage />}
+                />
+                <Route
+                  path="/photographers/:photographerId/galleries/:galleryId/upload-photo"
+                  element={<PhotoUploadForm />}
+                />
+              </Routes>
+            </Router>
+          </AuthProvider>
+        </PersistGate>
       </GalleriesProvider>
-
     </Provider>
   );
 };

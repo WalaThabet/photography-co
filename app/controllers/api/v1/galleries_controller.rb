@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Api
   module V1
     class GalleriesController < ApplicationController
@@ -8,9 +6,16 @@ module Api
       before_action :set_gallery, only: %i[show update destroy]
 
       def index
-        @galleries = Gallery.includes(:photographer).all
+        @galleries = Gallery.includes(:photographer, :photos).all
         galleries_with_urls = @galleries.map do |gallery|
-          gallery.as_json(include: [:photographer]).merge(cover_image_url: gallery.cover_image_url)
+          {
+            id: gallery.id,
+            title: gallery.title,
+            description: gallery.description,
+            cover_image_url: gallery.cover_image_url,
+            photographer: gallery.photographer,
+            photos: gallery.photos.map { |photo| url_for(photo.image) }
+          }
         end
         render json: galleries_with_urls
       end
@@ -26,7 +31,24 @@ module Api
       end
 
       def show
-        render json: @gallery, methods: [:cover_image_url]
+        gallery_with_photos = {
+          id: @gallery.id,
+          title: @gallery.title,
+          description: @gallery.description,
+          cover_image_url: @gallery.cover_image_url,
+          photographer: @gallery.photographer,
+          photos: @gallery.photos.map do |photo|
+            {
+              id: photo.id,
+              title: photo.title,
+              description: photo.description,
+              created_at: photo.created_at,
+              updated_at: photo.updated_at,
+              image_url: photo.image_url
+            }
+          end
+        }
+        render json: gallery_with_photos
       end
 
       def update
