@@ -1,0 +1,13 @@
+AllCops:
+  Exclude:
+    - db/**/*
+    - Gemfile
+    - vendor/**/*
+    - config/**/*
+    - bin/**/*
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false

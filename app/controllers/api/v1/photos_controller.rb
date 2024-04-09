@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# app/controllers/api/v1/photos_controller.rb
-
 module Api
   module V1
     class PhotosController < ApplicationController

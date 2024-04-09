@@ -1,11 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import GalleryList from "./galleries/GalleryList";
 import GalleryForm from "./galleries/GalleryForm";
 import { GalleriesProvider } from "../contexts/GalleriesContext";
 import GalleryShowPage from "./galleries/GalleryShowPage";
 import PhotoUploadForm from "./galleries/PhotoUploadForm";
-import PhotographerCard from "./photographers/PhotographerCard";
 import PhotographerDashboard from "./photographers/PhotographerDashboard";
 import Navbar from "./Navbar";
 import SignInPage from "./SignInPage";
@@ -17,24 +15,6 @@ import AuthCheck from "./AuthCheck";
 import axios from "axios";
 axios.defaults.withCredentials = true;
 
-const Home = () => (
-  <>
-    <h1 className="text-center text-4xl font-bold my-10">
-      PhotographyCo Galleries
-    </h1>
-    <GalleryList />
-    <h2 className="text-center text-2xl font-bold my-6">
-      Featured Photographers
-    </h2>
-    <PhotographerCard
-      name="Jane Doe"
-      bio="Passionate landscape photographer with a love for the natural world."
-      profilePicture="path_to_photographer_image"
-    />
-    {/* More PhotographerCards would go here */}
-  </>
-);
-
 const App = () => {
   return (
     <Provider store={store}>
@@ -45,7 +25,6 @@ const App = () => {
             <Router>
               <Navbar />
               <Routes>
-                <Route exact path="/" element={<Home />} />
                 <Route path="/sign_in" element={<SignInPage />} />
                 <Route
                   path="/photographers/:photographerId/dashboard"
