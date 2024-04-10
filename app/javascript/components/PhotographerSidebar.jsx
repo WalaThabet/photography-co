@@ -1,31 +1,114 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { HiCamera, HiViewGrid } from "react-icons/hi";
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { HiCamera, HiPlus, HiCollection, HiPhotograph } from "react-icons/hi";
+import {
+  Card,
+  Typography,
+  List,
+  ListItem,
+  Accordion,
+  AccordionHeader,
+  AccordionBody,
+} from "@material-tailwind/react";
+import { ChevronDownIcon } from "@heroicons/react/24/outline";
 
-const PhotographerSidebar = ({ photographerId }) => {
+const PhotographerSidebar = ({ photographerId, gallery }) => {
+  const { galleryId } = useParams();
+  const [dashboardOpen, setDashboardOpen] = useState(false);
+
+  useEffect(() => {
+    // Open the dashboard accordion if we have a gallery ID
+    if (galleryId) {
+      setDashboardOpen(true);
+    }
+  }, [galleryId]); // Dependency array, effect runs when galleryId changes
+
+  const toggleDashboardAccordion = () => {
+    setDashboardOpen(!dashboardOpen);
+  };
+
   return (
-    <div className="sticky top-0 flex rounded-xl bg-white text-gray-700 h-screen w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
-      <nav className="flex flex-col gap-1 min-w-[240px] p-2 font-sans text-base font-normal text-gray-700">
-        <Link
-          to={`/photographers/${photographerId}/dashboard`}
-          className="flex items-center w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-gray-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"
-        >
-          <div className="grid place-items-center mr-4">
-            <HiViewGrid className="h-5 w-5" />
-          </div>
-          Dashboard
-        </Link>
-        <Link
-          to={`/photographers/${photographerId}/new-gallery`}
-          className="flex items-center w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-gray-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"
-        >
-          <div className="grid place-items-center mr-4">
-            <HiCamera className="h-5 w-5" />
-          </div>
-          Create Gallery
-        </Link>
+    <Card className="sticky top-0 h-screen w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5 rounded-xl">
+      <nav className="flex-grow flex flex-col gap-1 min-w-[240px] p-2 font-sans text-base font-normal text-gray-700">
+        <List>
+          {/* Dashboard Main Menu Item */}
+          <ListItem className="p-0">
+            <Link
+              to={`/photographers/${photographerId}/dashboard`}
+              className="flex items-center w-full p-3 rounded-lg text-start leading-tight"
+            >
+              <HiCollection className="h-5 w-5" />
+              <Typography color="blue-gray" className="ml-4">
+                Dashboard
+              </Typography>
+            </Link>
+          </ListItem>
+
+          {/* Galleries Accordion with Submenus */}
+          <Accordion open={dashboardOpen}>
+            <AccordionHeader
+              onClick={toggleDashboardAccordion}
+              className="border-b-0 p-3"
+            >
+              <HiPhotograph className="h-5 w-5" />
+              <Typography color="blue-gray" className="ml-4 mr-auto">
+                Galleries
+              </Typography>
+              <ChevronDownIcon
+                strokeWidth={2.5}
+                className={`h-4 w-4 transition-transform ${
+                  dashboardOpen ? "rotate-180" : ""
+                }`}
+              />
+            </AccordionHeader>
+            <AccordionBody
+              className={`py-1 ${dashboardOpen ? "block" : "hidden"}`}
+            >
+              <List className="p-0">
+                {/* Create Gallery Submenu Item */}
+                <ListItem>
+                  <Link
+                    to={`/photographers/${photographerId}/new-gallery`}
+                    className="flex items-center w-full rounded-lg text-start leading-tight"
+                  >
+                    <HiPlus className="h-5 w-5" />
+                    <Typography color="blue-gray" className="ml-4">
+                      Create Gallery
+                    </Typography>
+                  </Link>
+                </ListItem>
+                {/* Gallery Title Submenu Item */}
+                {gallery && (
+                  <ListItem className="flex flex-col">
+                    <Link
+                      to={`/photographers/${photographerId}/galleries/${gallery.id}`}
+                      className="flex items-center w-full rounded-lg text-start leading-tight"
+                    >
+                      <HiCamera className="h-5 w-5" />
+                      <Typography color="blue-gray" className="ml-4">
+                        {gallery.title}
+                      </Typography>
+                    </Link>
+                    {/* Add Photo Nested Submenu Item */}
+                    {galleryId && (
+                      <Link
+                        to={`/photographers/${photographerId}/galleries/${galleryId}/upload-photo`}
+                        className="flex items-center w-full p-3 rounded-lg text-start leading-tight pl-12"
+                      >
+                        <HiPlus className="h-5 w-5" />
+                        <Typography color="blue-gray" className="ml-4">
+                          Add Photo
+                        </Typography>
+                      </Link>
+                    )}
+                  </ListItem>
+                )}
+              </List>
+            </AccordionBody>
+          </Accordion>
+        </List>
       </nav>
-    </div>
+    </Card>
   );
 };
 
