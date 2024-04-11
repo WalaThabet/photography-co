@@ -7,6 +7,7 @@ import PhotoUploadForm from "./galleries/PhotoUploadForm";
 import PhotographerDashboard from "./photographers/PhotographerDashboard";
 import Navbar from "./Navbar";
 import SignInPage from "./SignInPage";
+import SignUpPage from "./SignUpPage";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "../store/store";
@@ -26,6 +27,7 @@ const App = () => {
               <Navbar />
               <Routes>
                 <Route path="/sign_in" element={<SignInPage />} />
+                <Route path="/sign_up" element={<SignUpPage />} />
                 <Route
                   path="/photographers/:photographerId/dashboard"
                   element={<PhotographerDashboard />}

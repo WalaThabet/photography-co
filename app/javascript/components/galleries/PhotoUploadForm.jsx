@@ -33,7 +33,8 @@ const PhotoUploadForm = () => {
   };
 
   return (
-    <>
+   <React.Fragment>
+
       <div className="flex">
         <PhotographerSidebar photographerId={photographerId} />
         <div className="flex-grow flex items-center justify-center p-6">
@@ -107,7 +108,8 @@ const PhotoUploadForm = () => {
           </div>
         </div>
       </div>
-    </>
+      </React.Fragment>
+
   );
 };
 

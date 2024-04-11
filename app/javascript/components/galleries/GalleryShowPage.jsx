@@ -33,7 +33,7 @@ const GalleryShowPage = () => {
       {" "}
       <PhotographerSidebar photographerId={photographerId} gallery={gallery} />
       <main className="flex-grow flex justify-center items-center">
-        {gallery.photos?.length > 0 ? (
+        {(gallery.photos && gallery.photos.length > 0) ? (
           <Carousel showArrows={true} showThumbs={false} dynamicHeight={true}>
             {gallery.photos.map((photo, index) => (
               <div key={index}>

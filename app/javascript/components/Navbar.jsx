@@ -18,16 +18,23 @@ const Navbar = () => {
     return null;
   }
 
+  function getCSRFToken() {
+    return document
+      .querySelector('meta[name="csrf-token"]')
+      .getAttribute("content");
+  }
+
   const handleLogout = async () => {
     try {
       await axios.delete("/photographers/sign_out", {
         withCredentials: true,
         headers: {
           Accept: "application/json",
+          "X-CSRF-Token": getCSRFToken(),
         },
       });
       signOut();
-      navigate("/sign_in");
+      navigate("/sign_in", { replace: true });
     } catch (error) {
       console.error("Logout failed:", error);
     }
