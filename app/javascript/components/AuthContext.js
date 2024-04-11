@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState, useCallback } from "react";
-import axios from "axios";
 
 export const AuthContext = createContext({
   auth: { isAuthenticated: false, user: null },
@@ -15,27 +14,20 @@ export const AuthProvider = ({ children }) => {
 
   const signIn = useCallback((user) => {
     setAuth({ isAuthenticated: true, user });
+    localStorage.setItem("isAuthenticated", "true");
   }, []);
 
   const signOut = useCallback(() => {
     setAuth({ isAuthenticated: false, user: null });
+    localStorage.setItem("isAuthenticated", "false");
   }, []);
 
-  const checkAuthStatus = useCallback(async () => {
-    try {
-      const response = await axios.get("/api/v1/check_auth", {
-        withCredentials: true,
-      });
-      if (response.data.isAuthenticated) {
-        signIn(response.data.user);
-      } else {
-        signOut();
-      }
-    } catch (error) {
-      signOut();
-      console.error("Error checking auth status:", error);
+  const checkAuthStatus = useCallback(() => {
+    const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
+    if (isAuthenticated) {
+      setAuth({ isAuthenticated: true, user: {} });
     }
-  }, [signIn, signOut]);
+  }, []);
 
   return (
     <AuthContext.Provider value={{ auth, signIn, signOut, checkAuthStatus }}>
