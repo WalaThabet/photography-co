@@ -3,6 +3,7 @@ import { AiOutlineClose, AiOutlineMenu, AiOutlineLogout } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../AuthContext";
+import logoImage from '../../assets/images/logo.png';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -40,27 +41,15 @@ const Navbar = () => {
     }
   };
 
-  const navItems = [
-    { id: 1, text: "Home" },
-    { id: 2, text: "Company" },
-    { id: 3, text: "About" },
-  ];
-
   return (
     <div className="flex justify-between items-center h-18 w-full px-4 text-white sticky top-0 bg-black bg-opacity-20 backdrop-blur-sm">
       {/* Logo */}
-      <h1 className="text-3xl font-bold text-[#050505]">Lensify.</h1>
+      <h1 className="text-3xl font-bold text-[#050505]">
+      <img src={logoImage} alt="Lensify Logo" className="h-16" />
+      </h1>
 
       {/* Desktop Navigation */}
       <ul className="hidden md:flex">
-        {navItems.map((item) => (
-          <li
-            key={item.id}
-            className="p-4 hover:bg-[#060506] rounded-xl m-2 cursor-pointer duration-300 hover:text-white"
-          >
-            {item.text}
-          </li>
-        ))}
         <li
           onClick={handleLogout}
           className="p-4 hover:bg-[#070707] rounded-xl m-2 cursor-pointer duration-300 hover:text-white"
@@ -88,14 +77,6 @@ const Navbar = () => {
         </h1>
 
         {/* Mobile Navigation Items */}
-        {navItems.map((item) => (
-          <li
-            key={item.id}
-            className="p-4 border-b border-gray-600 rounded-xl hover:bg-[#00df9a] duration-300 hover:text-black cursor-pointer"
-          >
-            {item.text}
-          </li>
-        ))}
         <li
           onClick={handleLogout}
           className="p-4 border-b border-gray-600 rounded-xl hover:bg-[#00df9a] duration-300 hover:text-black cursor-pointer"
