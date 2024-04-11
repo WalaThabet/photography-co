@@ -1,28 +1,30 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { useAuth } from "../../contexts/AuthContext";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { useAuth } from "./AuthContext";
 
-const SignInPage = () => {
+const SignUpPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [csrfToken, setCsrfToken] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const auth = useAuth();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const token = document
+  const getCsrfToken = () => {
+    return document
       .querySelector('meta[name="csrf-token"]')
       .getAttribute("content");
-    setCsrfToken(token);
-  }, []);
+  };
 
-  const handleSignIn = async (e) => {
+  const handleSignUp = async (e) => {
+    const csrfToken = getCsrfToken();
     e.preventDefault();
+    if (password !== confirmPassword) {
+      return;
+    }
+
     try {
       const response = await axios.post(
-        "/photographers/sign_in",
+        "/photographers",
         {
           photographer: {
             email: email,
@@ -30,21 +32,26 @@ const SignInPage = () => {
           },
         },
         {
-          withCredentials: true,
           headers: {
             "X-CSRF-Token": csrfToken,
           },
+          withCredentials: true,
         }
       );
 
       if (response.data.success) {
         auth.signIn(response.data.photographer);
+
+        const newCsrfToken = response.data.csrfToken;
+        if (newCsrfToken) {
+          axios.defaults.headers.common["X-CSRF-Token"] = newCsrfToken;
+        }
         navigate(`/photographers/${response.data.photographer.id}/dashboard`);
       } else {
-        // Handle failed authentication (e.g., show error message)
+        // Handle errors
       }
     } catch (error) {
-      console.error("Sign in error:", error);
+      console.error("Sign up error:", error);
     }
   };
 
@@ -58,12 +65,12 @@ const SignInPage = () => {
             alt="Your Company"
           />
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-            Sign in to your account
+            Sign up for an account
           </h2>
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form onSubmit={handleSignIn} className="space-y-6">
+          <form onSubmit={handleSignUp} className="space-y-6">
             <div>
               <label
                 htmlFor="email"
@@ -77,38 +84,48 @@ const SignInPage = () => {
                   name="email"
                   type="email"
                   autoComplete="email"
-                  onChange={(e) => setEmail(e.target.value)}
                   required
+                  onChange={(e) => setEmail(e.target.value)}
                   className="block w-full rounded-md border-0 py-1.5 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
 
             <div>
-              <div className="flex items-center justify-between">
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Password
-                </label>
-                <div className="text-sm">
-                  <a
-                    href="#"
-                    className="font-semibold text-black hover:text-indigo-500"
-                  >
-                    Forgot password?
-                  </a>
-                </div>
-              </div>
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Password
+              </label>
               <div className="mt-2">
                 <input
                   id="password"
                   name="password"
                   type="password"
                   autoComplete="current-password"
-                  onChange={(e) => setPassword(e.target.value)}
                   required
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="block w-full rounded-md border-0 py-1.5 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label
+                htmlFor="confirm-password"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Confirm Password
+              </label>
+              <div className="mt-2">
+                <input
+                  id="confirm-password"
+                  name="confirmPassword"
+                  type="password"
+                  autoComplete="current-password"
+                  required
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                   className="block w-full rounded-md border-0 py-1.5 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -119,26 +136,18 @@ const SignInPage = () => {
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-black px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                Sign in
+                Sign up
               </button>
             </div>
           </form>
+
           <p className="mt-10 text-center text-sm text-gray-500">
-            Not a member?{" "}
-            <Link
-              to="/sign_up"
-              className="font-semibold leading-6 text-black hover:text-indigo-500"
-            >
-              Sign up now
-            </Link>
-          </p>
-          <p className="mt-10 text-center text-sm text-gray-500">
-            Not a member?{" "}
+            Already have an account?{" "}
             <a
-              href="/sign_up"
+              href="/sign_in"
               className="font-semibold leading-6 text-black hover:text-indigo-500"
             >
-              Sign up now
+              Sign in
             </a>
           </p>
         </div>
@@ -147,4 +156,4 @@ const SignInPage = () => {
   );
 };
 
-export default SignInPage;
+export default SignUpPage;
