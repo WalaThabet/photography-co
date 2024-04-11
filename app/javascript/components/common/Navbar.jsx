@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { AiOutlineClose, AiOutlineMenu, AiOutlineLogout } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useAuth } from "./AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 
 const Navbar = () => {
   const navigate = useNavigate();

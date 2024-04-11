@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import GalleryList from "../galleries/GalleryList";
-import PhotographerSidebar from "../PhotographerSidebar";
+import PhotographerSidebar from "./PhotographerSidebar";
 import { useGalleries } from "../../contexts/GalleriesContext";
 import axios from "axios";
 import { HiPhotograph } from "react-icons/hi";

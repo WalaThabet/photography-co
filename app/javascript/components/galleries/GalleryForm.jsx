@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
-import PhotographerSidebar from "../PhotographerSidebar";
+import PhotographerSidebar from "../photographers/PhotographerSidebar";
 
 const GalleryForm = ({ onCreate }) => {
   const [title, setTitle] = useState("");
