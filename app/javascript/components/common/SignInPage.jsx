@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "../AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
@@ -131,15 +131,6 @@ const SignInPage = () => {
             >
               Sign up now
             </Link>
-          </p>
-          <p className="mt-10 text-center text-sm text-gray-500">
-            Not a member?{" "}
-            <a
-              href="/sign_up"
-              className="font-semibold leading-6 text-black hover:text-indigo-500"
-            >
-              Sign up now
-            </a>
           </p>
         </div>
       </div>

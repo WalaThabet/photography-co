@@ -11,7 +11,7 @@ import SignUpPage from "./common/SignUpPage";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "../store/store";
-import { AuthProvider } from "../contexts/AuthContext";
+import { AuthProvider } from "./AuthContext";
 import AuthCheck from "../contexts/AuthCheck";
 import axios from "axios";
 axios.defaults.withCredentials = true;
